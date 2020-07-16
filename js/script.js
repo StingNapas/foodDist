@@ -38,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Timers
 
-	const deadline = "2020-07-10T13:14";
+	const deadline = "2020-07-16T14:14";
 
 	function calcDiffer(endtime){
 		const milliseconds = Date.parse(endtime) - Date.parse(new Date()),
@@ -92,8 +92,43 @@ window.addEventListener("DOMContentLoaded", () => {
 			}
 		}
 
-		timerId = setInterval(updateTime, 1000);
+		timerId = setInterval(updateTime, 3000);
 	}
 
 	setTime(".timer", deadline);
+
+// Modal window
+
+	const modalWindowBtn = document.querySelectorAll("[data-modal]"),
+				modalWindowContent = document.querySelector(".modal"),
+				modalWindowCloseBtn = document.querySelector("[data-close]");
+
+	modalWindowBtn.forEach(item => {
+		item.addEventListener("click", () => {
+			modalWindowContent.classList.add("show");
+			modalWindowContent.classList.remove("hide");
+
+			document.body.style.overflow = "hidden";
+		});
+	});
+
+	function closeModal(){
+		modalWindowContent.classList.add("hide");
+		modalWindowContent.classList.remove("show");
+		document.body.style.overflow = "";
+	}
+
+	modalWindowCloseBtn.addEventListener("click", closeModal);
+
+	modalWindowContent.addEventListener("click", (e) => {
+		if (e.target === modalWindowContent){
+			closeModal();
+		}
+	});
+
+	document.addEventListener("keydown", (e) => {
+		if (e.code == "Escape" && modalWindowContent.classList.contains("show")){
+			closeModal();
+		}
+	});
 });
