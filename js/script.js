@@ -150,18 +150,32 @@ window.addEventListener("DOMContentLoaded", () => {
 //Создаем класс
 
 	class MenuCard{
-		constructor(src, alt, title, descr, price){
+		constructor(src, alt, title, descr, price, ...classes){
 			this.src = src;
 			this.alt = alt;
 			this.title = title;
 			this.descr = descr;
 			this.price = price;
+			this.transfer = 70;
+			this.classes = classes;
+			this.transferToRuble();
+		}
+
+		transferToRuble(){
+			this.price = this.price * this.transfer;
 		}
 
 		createCard(){
 			let divMenuItem = document.createElement("div");
+			if (this.classes.length == 0){
+				divMenuItem.className = "menu__item";
+			} else{
+				this.classes.forEach(item => {
+					divMenuItem.classList.add(item);
+				});
+			}
+
 			divMenuItem.innerHTML = `
-			<div class="menu__item">
 				<img src=${this.src} alt=${this.alt}>
 				<h3 class="menu__item-subtitle">${this.title}</h3>
 				<div class="menu__item-descr">${this.descr}</div>
@@ -169,9 +183,8 @@ window.addEventListener("DOMContentLoaded", () => {
 				<div class="menu__item-price">
 						<div class="menu__item-cost">Цена:</div>
 						<div class="menu__item-total"><span>${this.price}</span> грн/день</div>
-				</div>
-      </div>
-			`;
+				</div>`;
+
 			let container = document.querySelector(".menu__field .container");
 			container.append(divMenuItem);
 		}
@@ -182,7 +195,10 @@ window.addEventListener("DOMContentLoaded", () => {
 		"vegy",
 		'Меню "Фитнес"',
 		'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-		229).createCard();
+		229,
+		"menu__item",
+		"aaa",
+		"sdsdsdsd").createCard();
 
 	new MenuCard(
 		"img/tabs/elite.jpg",
